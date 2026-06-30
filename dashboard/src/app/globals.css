@@ -1,0 +1,140 @@
+:root {
+  --bg: #0f1115;
+  --panel: #181b22;
+  --panel-2: #1f2330;
+  --border: #2a2f3a;
+  --text: #e6e8eb;
+  --muted: #9aa3b2;
+  --accent: #4f8cff;
+  --accent-weak: #21314f;
+  --open: #f2a93b;
+  --in_progress: #4f8cff;
+  --resolved: #3fbf7f;
+  --danger: #ef5350;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+.container { max-width: 1040px; margin: 0 auto; padding: 24px 20px 64px; }
+
+header.topbar {
+  border-bottom: 1px solid var(--border);
+  background: var(--panel);
+}
+.topbar-inner {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.brand { font-weight: 700; font-size: 18px; color: var(--text); }
+.brand span { color: var(--accent); }
+.spacer { flex: 1; }
+
+button, .btn {
+  font: inherit;
+  border: 1px solid var(--border);
+  background: var(--panel-2);
+  color: var(--text);
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+button:hover, .btn:hover { border-color: var(--accent); }
+button:disabled { opacity: 0.5; cursor: not-allowed; }
+.btn-primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+.btn-danger { background: transparent; border-color: var(--danger); color: var(--danger); }
+
+input, select, textarea {
+  font: inherit;
+  background: var(--panel-2);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 10px;
+}
+label { color: var(--muted); font-size: 13px; display: block; margin-bottom: 4px; }
+
+.card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: flex-end;
+  margin-bottom: 20px;
+}
+.filters .field { display: flex; flex-direction: column; min-width: 160px; }
+
+.issue-row {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 14px 16px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  margin-bottom: 10px;
+  background: var(--panel);
+}
+.issue-row:hover { border-color: var(--accent); }
+.issue-row h3 { margin: 0 0 2px; font-size: 15px; }
+.issue-meta { color: var(--muted); font-size: 13px; }
+
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+.badge-open { background: rgba(242,169,59,0.15); color: var(--open); }
+.badge-in_progress { background: rgba(79,140,255,0.15); color: var(--in_progress); }
+.badge-resolved { background: rgba(63,191,127,0.15); color: var(--resolved); }
+.badge-cat { background: var(--accent-weak); color: var(--accent); }
+.badge-urg-LOW { background: rgba(154,163,178,0.15); color: var(--muted); }
+.badge-urg-MEDIUM { background: rgba(242,169,59,0.15); color: var(--open); }
+.badge-urg-HIGH { background: rgba(239,83,80,0.15); color: var(--danger); }
+
+.tag-row { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+
+.pagination { display: flex; gap: 10px; align-items: center; margin-top: 18px; }
+.muted { color: var(--muted); }
+.error { color: var(--danger); margin: 8px 0; }
+.notice {
+  background: var(--accent-weak);
+  border: 1px solid var(--accent);
+  color: var(--text);
+  padding: 10px 12px;
+  border-radius: 8px;
+  margin: 10px 0;
+  font-size: 14px;
+}
+.stack { display: flex; flex-direction: column; gap: 14px; }
+.row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+.grid-detail { display: grid; grid-template-columns: 160px 1fr; gap: 8px 16px; }
+.grid-detail dt { color: var(--muted); }
+.grid-detail dd { margin: 0; }
+.photos { display: flex; gap: 10px; flex-wrap: wrap; }
+.photos img { max-width: 220px; border-radius: 10px; border: 1px solid var(--border); }
+.center-narrow { max-width: 380px; margin: 60px auto; }
