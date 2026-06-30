@@ -1,8 +1,17 @@
-from fastapi import FastAPI
+import logging
+import time
+import uuid
+
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 
 from app.config import settings
+from app.core.logging_config import configure_logging
 from app.routers import auth, constituencies, issues, sync
+
+configure_logging("DEBUG" if settings.DEBUG else "INFO")
+logger = logging.getLogger("janabala.request")
 
 app = FastAPI(
     title=settings.APP_NAME,
@@ -17,6 +26,37 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+@app.middleware("http")
+async def log_requests(request: Request, call_next):
+    request_id = request.headers.get("X-Request-ID", uuid.uuid4().hex)
+    start = time.perf_counter()
+    response = await call_next(request)
+    duration_ms = round((time.perf_counter() - start) * 1000, 2)
+    logger.info(
+        "request",
+        extra={
+            "request_id": request_id,
+            "method": request.method,
+            "path": request.url.path,
+            "status_code": response.status_code,
+            "duration_ms": duration_ms,
+        },
+    )
+    response.headers["X-Request-ID"] = request_id
+    return response
+
+
+@app.exception_handler(Exception)
+async def unhandled_exception_handler(request: Request, exc: Exception):
+    # Log the full traceback server-side; never leak it to the client.
+    logger.exception(
+        "unhandled exception",
+        extra={"method": request.method, "path": request.url.path},
+    )
+    return JSONResponse(status_code=500, content={"detail": "Internal server error"})
+
 
 app.include_router(auth.router, prefix="/api/v1/auth", tags=["auth"])
 app.include_router(
