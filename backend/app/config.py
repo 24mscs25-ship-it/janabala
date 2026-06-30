@@ -34,6 +34,12 @@ class Settings(BaseSettings):
     SMS_BASE_URL: str = "https://control.msg91.com/api/v5"
     SMS_TIMEOUT_SECONDS: float = 10.0
 
+    # Uploads (local-disk storage for issue photos).
+    UPLOAD_DIR: str = "uploads"
+    UPLOAD_MAX_BYTES: int = 5 * 1024 * 1024  # 5 MB
+    # Public path prefix the files are served under.
+    UPLOAD_URL_PREFIX: str = "/media"
+
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 
     @field_validator("CORS_ORIGINS")

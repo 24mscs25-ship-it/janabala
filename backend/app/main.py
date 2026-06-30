@@ -5,10 +5,12 @@ import uuid
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+from fastapi.staticfiles import StaticFiles
 
 from app.config import settings
 from app.core.logging_config import configure_logging
-from app.routers import auth, constituencies, issues, sync
+from app.routers import auth, constituencies, issues, sync, uploads
+from app.storage import UPLOAD_ROOT
 
 configure_logging("DEBUG" if settings.DEBUG else "INFO")
 logger = logging.getLogger("janabala.request")
@@ -64,6 +66,14 @@ app.include_router(
 )
 app.include_router(issues.router, prefix="/api/v1/issues", tags=["issues"])
 app.include_router(sync.router, prefix="/api/v1/sync", tags=["sync"])
+app.include_router(uploads.router, prefix="/api/v1/uploads", tags=["uploads"])
+
+# Serve uploaded files. In production a CDN / object store would front these.
+app.mount(
+    settings.UPLOAD_URL_PREFIX,
+    StaticFiles(directory=str(UPLOAD_ROOT)),
+    name="media",
+)
 
 
 @app.get("/api/v1/health", tags=["health"])
