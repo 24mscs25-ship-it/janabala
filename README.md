@@ -1,14 +1,15 @@
 # JanaBala (ಜನಬಲ) — Prajakeeya
 
-Digital democracy platform for citizen-government engagement. **Status: Phase 1 backend implemented** — a working civic issue-reporting API (OTP auth, issues CRUD, offline sync) is in place. The mobile app and web dashboard are still to come (see "Current state" below).
+Digital democracy platform for citizen-government engagement. **Status: Phase 1 backend + web dashboard implemented** — a working civic issue-reporting API (OTP auth, issues CRUD, offline sync) and a Next.js citizen/admin dashboard are in place. The offline-first mobile app is in progress (see "Current state" below).
 
 **Author:** Yeshwanth C R (ysocrius)
 
 ## Current state (what actually exists)
 
-- **backend/** — a working FastAPI Phase 1 API: OTP-based auth (JWT), issues CRUD with filters and ownership/admin authorization, and offline sync (push/pull). SQLAlchemy models, Alembic migrations, a constituency seed script, and a pytest suite (14 tests). Runs on SQLite out of the box; point `DATABASE_URL` at Postgres for production.
+- **backend/** — a working FastAPI Phase 1 API: OTP-based auth (JWT, with resend cooldown and attempt lockout), issues CRUD with filters and ownership/admin authorization, offline sync (push/pull, idempotent on client_id), a public constituencies endpoint, and a pluggable SMS sender (MSG91 + console fallback). SQLAlchemy models, Alembic migrations, structured JSON logging, a constituency seed script, and a pytest suite (32 tests). Runs on SQLite out of the box; point `DATABASE_URL` at Postgres for production.
+- **dashboard/** — a Next.js (App Router) + TypeScript citizen/admin dashboard: OTP login, issue list with filters and pagination, issue detail, and admin status/delete actions. Consumes the `/api/v1` contract.
 - **index.html** — a standalone landing/marketing page.
-- **frontend (Flutter app), dashboard (web)** — planned, not yet present.
+- **frontend/ (Flutter mobile app)** — in progress; offline-first client per the blueprint.
 
 Everything beyond Phase 1 (AI/RAG, blockchain audit, agentic AI, federation/DAO) lives in `PRAJAKEEYA_PLATFORM_BLUEPRINT.md` as the *roadmap*, not a description of what's built.
 
